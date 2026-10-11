@@ -19,7 +19,7 @@
 <tr>
 <td width="50%" valign="top">
 
-### [Card 1] Layer 1: C2PA Provenance
+### Layer 1: C2PA Provenance
 - **Engine**: Pure JavaScript JUMBF container parser
 - **Formats**: PNG (`caBX`, `c2pa` chunks) & JPEG (`APP11` markers)
 - **Digital Source**: Evaluates IPTC `trainedAlgorithmicMedia`
@@ -29,7 +29,7 @@
 </td>
 <td width="50%" valign="top">
 
-### [Card 2] Layer 2: Metadata & Prompts
+### Layer 2: Metadata & Prompts
 - **PNG Chunks**: Parses `parameters`, `prompt`, `workflow`, `Comment`
 - **Decompression**: Node.js `zlib` handles compressed `zTXt`/`iTXt`
 - **Prompt Reconstruct**: Positive prompt, negative prompt, seed, steps
@@ -41,7 +41,7 @@
 <tr>
 <td width="50%" valign="top">
 
-### [Card 3] Layer 3: Signal Forensics
+### Layer 3: Signal Forensics
 - **2D FFT Radial Decay**: Pure JS Cooley-Tukey Radix-2 spectral slope
 - **Noise Kurtosis**: High-pass filtering calculates 4th moment kurtosis
 - **Local Variance**: Integral box filtering measures airbrushed areas
@@ -51,9 +51,9 @@
 </td>
 <td width="50%" valign="top">
 
-### [Card 4] Layer 4: Interactive & Reports
+### Layer 4: Reports & Diagnostics
 - **Interactive Mode**: Drag-and-drop prompt for instant analysis
-- **HTML Reports**: Self-contained responsive dark-mode audit cards
+- **HTML Reports**: Self-contained responsive dark-mode audit reports
 - **CLI Table**: Compact 84-column dashboard powered by `picocolors`
 - **CI/CD Integration**: Machine-readable JSON output via `--json`
 
@@ -114,7 +114,7 @@
 <tr>
 <td width="50%" valign="top">
 
-### [Setup Card] Installation
+### Installation
 ```bash
 git clone https://github.com/69poorpotato/ai-image-detector-js.git
 cd ai-image-detector-js
@@ -131,7 +131,7 @@ ai-detect-js image.png
 </td>
 <td width="50%" valign="top">
 
-### [Usage Card] Common Commands
+### Common Commands
 ```bash
 # Standard analysis
 node index.js image.png
