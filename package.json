@@ -1,0 +1,35 @@
+{
+  "name": "ai-image-detector-js",
+  "version": "1.0.0",
+  "description": "Multi-layer AI Image Detector & Forensic Suite for Node.js with C2PA Content Credentials, prompt extraction, and pixel-level frequency analysis",
+  "main": "index.js",
+  "bin": {
+    "ai-detect-js": "./index.js"
+  },
+  "scripts": {
+    "test": "node --test test/detector.test.js",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "ai-detector",
+    "c2pa",
+    "content-credentials",
+    "image-forensics",
+    "stable-diffusion",
+    "midjourney",
+    "dall-e",
+    "deepfake-detection",
+    "fft"
+  ],
+  "author": "Poor Potato <ar1044nb@outlook.com> (https://github.com/69poorpotato)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/69poorpotato/ai-image-detector-js.git"
+  },
+  "dependencies": {
+    "jpeg-js": "^0.4.4",
+    "picocolors": "^1.1.1",
+    "pngjs": "^7.0.0"
+  }
+}
