@@ -1,49 +1,73 @@
-# AI Image Detector & Forensic Suite (Node.js Edition)
+<div align="center">
 
-> A multi-layered digital forensics and provenance verification suite in pure JavaScript (Node.js) to detect AI-generated images, extract generation prompts, audit C2PA Content Credentials, and analyze pixel-level frequency spectra.
+# AI IMAGE DETECTOR & FORENSIC SUITE (NODE.JS)
 
-[![Node.js 18+](https://img.shields.io/badge/node.js-18+-green.svg)](https://nodejs.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![C2PA Compliant](https://img.shields.io/badge/C2PA-Content%20Credentials-purple.svg)](https://c2pa.org/)
-[![Architecture: Pure JS](https://img.shields.io/badge/Dependencies-Zero%20Native%20Builds-blue.svg)](#architecture)
+**Multi-layer digital forensics and provenance suite in pure JavaScript for AI-generated media**
 
----
+[![Node.js 18+](https://img.shields.io/badge/Node.js-18+-0284c7.svg)](https://nodejs.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-10b981.svg)](LICENSE)
+[![C2PA Standard](https://img.shields.io/badge/C2PA-Content%20Credentials-8b5cf6.svg)](https://c2pa.org/)
+[![Architecture](https://img.shields.io/badge/Dependencies-Zero%20Native%20Builds-f59e0b.svg)](#detection-architecture)
 
-## Overview
-
-AI Image Detector (Node.js Edition) brings the complete multi-layer forensic detection suite to the JavaScript ecosystem with zero native binary compilation requirements:
-
-1. **Layer 1: C2PA Content Credentials & JUMBF Provenance (Cryptographic & Deterministic)**
-   - Pure JavaScript parser for C2PA JUMBF boxes across PNG (`caBX`, `c2pa` chunks) and JPEG (`APP11` markers).
-   - Audits IPTC `digitalSourceType` (e.g., `trainedAlgorithmicMedia` for AI generation).
-   - Identifies generative software agents (ChatGPT / DALL-E, Adobe Firefly, Midjourney, Bing Creator).
-   - Extracts certificate authorities (OpenAI OpCo, Microsoft, Adobe), timestamps, and cryptographic watermarks (`c2pa.watermarked.unbound`).
-
-2. **Layer 2: Deep Metadata & Prompt Extractor**
-   - Dissects PNG chunks (`tEXt`, `zTXt`, `iTXt` via zlib) and embedded XMP packets.
-   - Extracts positive prompts, negative prompts, seed, steps, sampler, CFG scale, and model checkpoints from:
-     - Automatic1111 / Stable Diffusion WebUI / Forge / Fooocus
-     - ComfyUI (node graph inspection: `CLIPTextEncode`, `KSampler`, `CheckpointLoader`)
-     - NovelAI & InvokeAI
-     - Flux.1, SDXL, and Stable Diffusion 3
-     - Midjourney & Adobe Firefly XMP tags
-   - Validates genuine camera hardware EXIF tags (Canon, Nikon, Sony, Apple, Leica).
-
-3. **Layer 3: Signal & Pixel Forensics (Pure JavaScript FFT & Statistics)**
-   - **2D Fast Fourier Transform (Cooley-Tukey Radix-2)**: Computes 2D radial power spectrum decay ($1/f^\alpha$). Flags unnatural spectral steepness or artificial flat noise tails.
-   - **Noise Residual Kurtosis**: High-pass filtering extracts noise variance and the 4th standardized moment (excess kurtosis). Denoised generative surfaces produce heavy-tailed residual distributions ($kurtosis > 20.0$).
-   - **Local Texture Variance**: Measures airbrushed, textureless patch ratios.
-   - **Chromatic Edge Dispersion**: Measures whether strong edges across Red and Blue channels display natural optical lens dispersion versus synthetic edge alignment.
-   - **Color Histogram Smoothness**: Evaluates 2nd-order differences in color histograms to detect continuous floating-point generation vs. camera sensor photon shot noise.
-
-4. **Layer 4: Interactive Mode & HTML Reports**
-   - Interactive Drag-and-Drop terminal prompt for testing images rapidly.
-   - Standalone, self-contained interactive HTML audit reports (`--html report.html`).
-   - Machine-readable JSON output for automated CI/CD pipelines (`--json`).
+</div>
 
 ---
 
-## Terminal Dashboard Preview
+## Detection Architecture
+
+<table width="100%">
+<tr>
+<td width="50%" valign="top">
+
+### [Card 1] Layer 1: C2PA Provenance
+- **Engine**: Pure JavaScript JUMBF container parser
+- **Formats**: PNG (`caBX`, `c2pa` chunks) & JPEG (`APP11` markers)
+- **Digital Source**: Evaluates IPTC `trainedAlgorithmicMedia`
+- **Agents Audited**: ChatGPT, DALL-E, Firefly, Midjourney, Bing
+- **Signatures**: Verifies certificate authorities & watermarks
+
+</td>
+<td width="50%" valign="top">
+
+### [Card 2] Layer 2: Metadata & Prompts
+- **PNG Chunks**: Parses `parameters`, `prompt`, `workflow`, `Comment`
+- **Decompression**: Node.js `zlib` handles compressed `zTXt`/`iTXt`
+- **Prompt Reconstruct**: Positive prompt, negative prompt, seed, steps
+- **Engines**: Automatic1111, ComfyUI, Fooocus, NovelAI, Flux.1, SD3
+- **Camera EXIF**: Identifies optical sensors (Canon, Nikon, Sony, Apple)
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+### [Card 3] Layer 3: Signal Forensics
+- **2D FFT Radial Decay**: Pure JS Cooley-Tukey Radix-2 spectral slope
+- **Noise Kurtosis**: High-pass filtering calculates 4th moment kurtosis
+- **Local Variance**: Integral box filtering measures airbrushed areas
+- **Chromatic Dispersion**: Checks optical lens edge dispersion
+- **Histogram Smoothness**: Evaluates 2nd-order color difference
+
+</td>
+<td width="50%" valign="top">
+
+### [Card 4] Layer 4: Interactive & Reports
+- **Interactive Mode**: Drag-and-drop prompt for instant analysis
+- **HTML Reports**: Self-contained responsive dark-mode audit cards
+- **CLI Table**: Compact 84-column dashboard powered by `picocolors`
+- **CI/CD Integration**: Machine-readable JSON output via `--json`
+
+</td>
+</tr>
+</table>
+
+---
+
+## Terminal Dashboard
+
+<table width="100%">
+<tr>
+<td>
 
 ```text
 ==================================================================================
@@ -78,16 +102,19 @@ AI Image Detector (Node.js Edition) brings the complete multi-layer forensic det
   [Tip] Export standalone HTML report via --html report.html
 ```
 
+</td>
+</tr>
+</table>
+
 ---
 
-## Installation
+## Quick Start Guide
 
-### Prerequisites
-- Node.js 18.0.0 or higher
-- npm 9.0.0 or higher
+<table width="100%">
+<tr>
+<td width="50%" valign="top">
 
-### Clone and Install Dependencies
-
+### [Setup Card] Installation
 ```bash
 git clone https://github.com/69poorpotato/ai-image-detector-js.git
 cd ai-image-detector-js
@@ -95,90 +122,104 @@ cd ai-image-detector-js
 npm install
 ```
 
-*(Optional: Install globally or link as a CLI command)*
+Optional global CLI link:
 ```bash
 npm link
+ai-detect-js image.png
 ```
-After linking, you can run `ai-detect-js` directly from anywhere in your terminal.
 
----
+</td>
+<td width="50%" valign="top">
 
-## CLI Usage Guide
-
-### Command Line Options
-
-| Option | Argument | Description | Example |
-| :--- | :--- | :--- | :--- |
-| `images` | `[file ...]` | One or more image files to analyze | `node index.js photo.png` |
-| `-i, --interactive` | None | Launch interactive drag-and-drop prompt | `node index.js -i` |
-| `--html` | `[output.html]` | Generate standalone interactive HTML audit report | `node index.js image.png --html report.html` |
-| `-d, --dir` | `<directory>` | Batch scan all supported images in a folder | `node index.js --dir ./photos` |
-| `-o, --output` | `<file.json>` | Save report as a JSON file | `node index.js image.png -o audit.json` |
-| `-j, --json` | None | Output machine-readable JSON to stdout | `node index.js image.png --json` |
-| `-v, --verbose` | None | Print detailed mathematical parameters | `node index.js image.png -v` |
-| `-h, --help` | None | Display help and usage information | `node index.js -h` |
-
----
-
-## Usage Examples
-
-### 1. Interactive Drag-and-Drop Mode
-Run without arguments or pass `-i`:
+### [Usage Card] Common Commands
 ```bash
+# Standard analysis
+node index.js image.png
+
+# Interactive drag & drop
 node index.js -i
-```
-Drag any image file directly from your file manager into the terminal window and press `Enter` for instant results.
 
-### 2. Standalone Interactive HTML Report
-```bash
-node index.js image.png --html audit.html
-```
-Creates a self-contained, responsive dark-mode HTML audit page with an embedded thumbnail, confidence gauges, full C2PA provenance records, and signal forensic meters.
+# Generate HTML report
+node index.js image.png --html report.html
 
-### 3. Batch Scan a Directory
-```bash
-node index.js --dir ./test_images
-```
-Scans all supported images and outputs an organized batch summary table.
-
-### 4. Automation and CI/CD Pipelines (JSON)
-```bash
-node index.js suspicious.png --json
+# Batch directory scan
+node index.js --dir ./photos -o report.json
 ```
 
-Example JSON response:
-```json
-{
-  "fileInfo": {
-    "fileName": "image.png",
-    "dimensions": "1353 x 1163",
-    "format": "PNG",
-    "sha256": "f1919b26aadb508a87fbeea502708a50ddd9d1b212245c1dad95ad8c7e62d127"
-  },
-  "verdict": "CONFIRMED AI (C2PA / Content Credentials)",
-  "confidence": 100.0,
-  "detectedGenerator": "ChatGPT gpt-image",
-  "primaryIndicator": "C2PA Content Credentials (ChatGPT gpt-image)",
-  "c2pa": {
-    "hasC2PA": true,
-    "claimGenerator": "OpenAI Media Service API",
-    "issuer": "OpenAI OpCo, LLC",
-    "watermarks": ["c2pa.watermarked.unbound"]
-  },
-  "forensics": {
-    "forensicScore": 0.65,
-    "noiseKurtosis": 47.18,
-    "psdSlope": -2.55,
-    "smoothnessRatio": 0.657
-  }
-}
-```
+</td>
+</tr>
+</table>
+
+---
+
+## CLI Options & Flags
+
+<table width="100%">
+<tr>
+<th>Option</th>
+<th>Argument</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+<tr>
+<td><code>images</code></td>
+<td><code>[file ...]</code></td>
+<td>One or more image files to analyze</td>
+<td><code>node index.js photo.png</code></td>
+</tr>
+<tr>
+<td><code>-i, --interactive</code></td>
+<td>None</td>
+<td>Launch interactive drag-and-drop terminal prompt</td>
+<td><code>node index.js -i</code></td>
+</tr>
+<tr>
+<td><code>--html</code></td>
+<td><code>[output.html]</code></td>
+<td>Generate standalone interactive HTML audit report</td>
+<td><code>node index.js image.png --html report.html</code></td>
+</tr>
+<tr>
+<td><code>-d, --dir</code></td>
+<td><code>&lt;directory&gt;</code></td>
+<td>Batch scan all supported images in a folder</td>
+<td><code>node index.js --dir ./photos</code></td>
+</tr>
+<tr>
+<td><code>-o, --output</code></td>
+<td><code>&lt;file.json&gt;</code></td>
+<td>Save structured report to a JSON file</td>
+<td><code>node index.js image.png -o audit.json</code></td>
+</tr>
+<tr>
+<td><code>-j, --json</code></td>
+<td>None</td>
+<td>Output machine-readable JSON to stdout</td>
+<td><code>node index.js image.png --json</code></td>
+</tr>
+<tr>
+<td><code>-v, --verbose</code></td>
+<td>None</td>
+<td>Print detailed mathematical parameters</td>
+<td><code>node index.js image.png -v</code></td>
+</tr>
+<tr>
+<td><code>-h, --help</code></td>
+<td>None</td>
+<td>Show command usage help</td>
+<td><code>node index.js -h</code></td>
+</tr>
+</table>
 
 ---
 
 ## Programmatic Library API
 
-You can import and use `ai-image-detector-js` inside your own Node.js applications:
+<table width="100%">
+<tr>
+<td>
+
+You can integrate `ai-image-detector-js` directly into your own Node.js backends or automation services:
 
 ```javascript
 const { AIImageDetector, C2PAChecker, ForensicAnalyzer } = require('ai-image-detector-js');
@@ -188,34 +229,63 @@ const report = detector.analyze('sample.png');
 
 console.log('Verdict:', report.verdict);
 console.log('Confidence:', report.confidence + '%');
-console.log('Generator:', report.detectedGenerator);
-console.log('C2PA Found:', report.c2pa.hasC2PA);
+console.log('Detected Generator:', report.detectedGenerator);
+console.log('C2PA Present:', report.c2pa.hasC2PA);
 ```
+
+</td>
+</tr>
+</table>
 
 ---
 
-## Architecture
+## Supported AI Generators & Frameworks
 
-```
-ai-image-detector-js/
-├── lib/
-│   ├── c2pa-checker.js      # JUMBF / C2PA binary manifest parser & digitalSourceType auditor
-│   ├── metadata-checker.js  # PNG chunks (tEXt, zTXt, iTXt), EXIF, XMP, SD/ComfyUI prompt parser
-│   ├── forensics.js         # Pure JS 2D Cooley-Tukey FFT, noise kurtosis & local variance
-│   ├── analyzer.js          # Master multi-layer analyzer & decision engine
-│   ├── html-reporter.js     # Standalone interactive HTML report generator
-│   └── ui.js                # Clean terminal dashboard renderer
-├── test/
-│   └── detector.test.js     # Automated test suite (5 unit tests)
-├── index.js                 # Main CLI entrypoint and library export
-├── package.json             # npm package configuration
-├── LICENSE                  # MIT License with attribution requirements
-└── README.md                # Complete documentation guide
-```
+<table width="100%">
+<tr>
+<td width="33%" valign="top">
+
+### Commercial Services
+- ChatGPT (gpt-image)
+- DALL-E 2 / 3
+- Midjourney (v4, v5, v6, v7)
+- Adobe Firefly
+- Bing Image Creator / Copilot
+- Google Imagen / Gemini
+
+</td>
+<td width="33%" valign="top">
+
+### Open & Diffusion Models
+- Stable Diffusion 1.5 / 2.1
+- SDXL / SDXL Turbo
+- Stable Diffusion 3
+- Flux.1 (Schnell / Dev)
+- NovelAI
+- InvokeAI
+
+</td>
+<td width="33%" valign="top">
+
+### Workflows & Web UIs
+- ComfyUI Node Graphs
+- Automatic1111 WebUI
+- SD-Forge / SwarmUI
+- Fooocus
+- Ideogram / Leonardo.ai
+- SeaArt / Krea AI / Playground
+
+</td>
+</tr>
+</table>
 
 ---
 
-## Running Tests
+## Testing & Verification
+
+<table width="100%">
+<tr>
+<td>
 
 Run the automated test suite using Node's native test runner:
 
@@ -223,34 +293,19 @@ Run the automated test suite using Node's native test runner:
 npm test
 ```
 
----
+All 5 test suites verify:
+- C2PA provenance extraction on real signed media
+- Generation prompt extraction across Automatic1111 and ComfyUI
+- Pure JavaScript 2D FFT and noise kurtosis calculation
+- Standalone HTML audit report generation
+- Unified multi-layer verdict synthesis
 
-## Supported AI Models & Generators
-
-The suite detects provenance tags, metadata parameters, or structural fingerprints from:
-- ChatGPT & DALL-E 3
-- Midjourney (v4, v5, v6, v7)
-- Stable Diffusion (1.5, 2.1, SDXL, SD3)
-- Flux.1 (Black Forest Labs)
-- ComfyUI & Fooocus
-- Automatic1111 / WebUI / SD-Forge / SwarmUI
-- Adobe Firefly
-- Bing Image Creator / Microsoft Designer / Copilot
-- Google Imagen & Gemini
-- NovelAI & InvokeAI
-- Ideogram & Leonardo.ai
-- Playground AI, Krea AI, and SeaArt
+</td>
+</tr>
+</table>
 
 ---
 
-## License and Attribution
+## License
 
-This project is licensed under the **MIT License**.
-
-### Credit Requirement
-You are completely free to use, modify, distribute, integrate, or sell this software for any personal or commercial project. The only condition is that **credit and attribution must be given to the author**:
-
-- **Author**: Poor Potato ([@69poorpotato](https://github.com/69poorpotato))
-- **Repository**: [https://github.com/69poorpotato/ai-image-detector-js](https://github.com/69poorpotato/ai-image-detector-js)
-
-Please retain the copyright notice from the [`LICENSE`](LICENSE) file in all distributions and forks.
+This project is licensed under the [MIT License](LICENSE).
